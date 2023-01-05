@@ -8,31 +8,7 @@ const client = new TwitterApi({
     accessSecret: process.env.ACCESS_SECRET
 })
 
-function percentageOfYearPassed() {
-  // Get the current date
-  const currentDate = new Date();
 
-  // Get the current year
-  const currentYear = currentDate.getFullYear();
-
-  // Get the current month (0-based, so 0 = January)
-  const currentMonth = currentDate.getMonth();
-
-  // Get the current day of the month
-  const currentDay = currentDate.getDate();
-
-  // Calculate the total number of days that have passed so far this year
-  const daysPassed = (currentMonth * 30) + currentDay;
-
-  // Calculate the total number of days in the year
-  const daysInYear = 365;
-
-  // Calculate the percentage of the year that has passed
-  const percentage = (daysPassed / daysInYear) * 100;
-
-  // Return the percentage
-  return percentage;
-}
 
 
 
@@ -40,7 +16,32 @@ function percentageOfYearPassed() {
 
 
 setInterval(()=>{
-  client.v2.tweet(`The year has progressed by ${percentageOfYearPassed()}`).then((val) => {
+  function percentageOfYearPassed() {
+    // Get the current date
+    const currentDate = new Date();
+  
+    // Get the current year
+    const currentYear = currentDate.getFullYear();
+  
+    // Get the current month (0-based, so 0 = January)
+    const currentMonth = currentDate.getMonth();
+  
+    // Get the current day of the month
+    const currentDay = currentDate.getDate();
+  
+    // Calculate the total number of days that have passed so far this year
+    const daysPassed = (currentMonth * 30) + currentDay;
+  
+    // Calculate the total number of days in the year
+    const daysInYear = 365;
+  
+    // Calculate the percentage of the year that has passed
+    const percentage = (daysPassed / daysInYear) * 100;
+  
+    // Return the percentage
+    return percentage;
+  }
+  client.v2.tweet(`The year has progressed by ${percentageOfYearPassed().toFixed(2)} %`).then((val) => {
     console.log(val)
   }).catch(err => console.log(err))
 },86400*1000)
